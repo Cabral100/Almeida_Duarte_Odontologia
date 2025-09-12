@@ -9,141 +9,128 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-teal': '#49B4C3',
+                        'brand-gray': '#AEB6B7',
+                        'brand-dark': '#1f2937', 
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
         /* --- CORE STYLES --- */
         * { font-family: 'Inter', sans-serif; }
-        html { scroll-behavior: smooth; } /* Mantém a rolagem suave para links internos */
+        html { scroll-behavior: smooth; }
 
-        /* --- GRADIENTS --- */
-        .gradient-bg { background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); }
+        /* --- GRADIENTS & TEXTOS COM AS CORES DO LOGO --- */
+        .gradient-bg { background: linear-gradient(135deg, #49B4C3 0%, #3aa2b1 100%); }
         .gradient-text {
-            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            background: linear-gradient(135deg, #49B4C3 0%, #3aa2b1 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
 
         /* --- PAGE LOADER --- */
         .page-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.75s ease-out; }
 
-        /* --- SCROLL ANIMATIONS (GERAIS) --- */
-        .fade-in, .slide-in-left, .slide-in-right, .scale-in { opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .fade-in { transform: translateY(40px); }
-        .slide-in-left { transform: translateX(-60px); }
-        .slide-in-right { transform: translateX(60px); }
-        .scale-in { transform: scale(0.9); }
-        .visible { opacity: 1; transform: none; }
+        /* --- ANIMAÇÕES DE SCROLL --- */
+        .text-blur-in, .reveal-in { opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .text-blur-in { filter: blur(8px); transform: translateY(20px); }
+        .reveal-in { filter: blur(8px); transform: translateY(-20px); }
+        .visible { opacity: 1; filter: blur(0px); transform: none; }
         
         /* --- FLOATING BUTTONS --- */
         .whatsapp-btn { position: fixed; bottom: 24px; right: 24px; z-index: 1000; background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4); transition: all 0.4s; animation: float-whatsapp 3s ease-in-out infinite; }
         .whatsapp-btn:hover { transform: scale(1.1); }
         @keyframes float-whatsapp { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
 
-        .back-to-top { position: fixed; bottom: 104px; right: 24px; z-index: 1000; width: 52px; height: 52px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.4s; box-shadow: 0 8px 32px rgba(14, 165, 233, 0.3); }
+        .back-to-top { position: fixed; bottom: 104px; right: 24px; z-index: 1000; width: 52px; height: 52px; background: linear-gradient(135deg, #49B4C3 0%, #3aa2b1 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.4s; box-shadow: 0 8px 32px rgba(73, 180, 195, 0.3); }
         .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
         .back-to-top:hover { transform: scale(1.1); }
         
         /* --- FAQ --- */
         .faq-item { transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(14, 165, 233, 0.2); box-shadow: 0 8px 25px rgba(14, 165, 233, 0.1); }
+        .faq-item:hover { border-color: rgba(73, 180, 195, 0.2); box-shadow: 0 8px 25px rgba(73, 180, 195, 0.1); }
         .faq-icon { transition: transform 0.3s ease; }
         
         /* --- FORM STYLES --- */
         .form-input { width: 100%; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.75rem 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
-        .form-input:focus { outline: none; border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2); }
+        .form-input:focus { outline: none; border-color: #49B4C3; box-shadow: 0 0 0 3px rgba(73, 180, 195, 0.2); }
 
-        /* --- FULLSCREEN MOBILE MENU --- */
+        /* --- MOBILE MENU --- */
         #mobile-menu { position: fixed; inset: 0; z-index: 50; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s; }
         #mobile-menu.open { opacity: 1; visibility: visible; }
         #mobile-menu a { opacity: 0; transform: translateY(20px); font-size: 1.5rem; font-weight: 600; margin: 1rem 0; color: #1f2937; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #mobile-menu.open a { animation: fadeInUp 0.5s ease forwards; }
-        #mobile-menu.open a:nth-child(1) { animation-delay: 0.2s; }
-        #mobile-menu.open a:nth-child(2) { animation-delay: 0.3s; }
-        #mobile-menu.open a:nth-child(3) { animation-delay: 0.4s; }
-        #mobile-menu.open a:nth-child(4) { animation-delay: 0.5s; }
-        #mobile-menu.open a:nth-child(5) { animation-delay: 0.6s; }
-        #mobile-menu.open a:nth-child(6) { animation-delay: 0.7s; }
-        #mobile-menu.open a:nth-child(7) { animation-delay: 0.8s; }
+        #mobile-menu.open a:nth-child(1) { animation-delay: 0.2s; } #mobile-menu.open a:nth-child(2) { animation-delay: 0.3s; } #mobile-menu.open a:nth-child(3) { animation-delay: 0.4s; } #mobile-menu.open a:nth-child(4) { animation-delay: 0.5s; } #mobile-menu.open a:nth-child(5) { animation-delay: 0.6s; } #mobile-menu.open a:nth-child(6) { animation-delay: 0.7s; } #mobile-menu.open a:nth-child(7) { animation-delay: 0.8s; }
         #close-menu-btn { position: absolute; top: 2rem; right: 2rem; z-index: 60; }
-
-        /* --- STYLES CORRIGIDOS PARA O SLIDING DE CARDS --- */
-        #salas-panel {
-            height: 100vh;
-            width: 100vw;
+        
+        /* --- ESTILOS PARA O NOVO CARROSSEL DE SLIDES --- */
+        .carousel { position: relative; }
+        .carousel-view { overflow: hidden; border-radius: 0.5rem; }
+        .carousel-track {
             display: flex;
-            flex-wrap: nowrap;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .card-wrapper {
-            min-width: 100vw; /* Cada card ocupa a largura total da tela */
-            height: 100vh; /* Cada card ocupa a altura total da tela */
+        .carousel-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 650px; /* Altura fixa para o slide */
+            object-fit: cover;
+            display: block;
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 9999px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem; /* Adiciona espaçamento interno */
-            box-sizing: border-box; /* Garante que padding não afete o tamanho total */
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
-        .card-content {
-            background-color: var(--card-color);
-            color: white;
-            width: 100%;
-            max-width: 1100px;
-            height: 80vh;
-            max-height: 600px;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            transition: background-color 0.3s ease;
-            display: flex;
-            flex-direction: column; /* Padrão mobile */
-            gap: 1.5rem;
+        .carousel-button:hover { background-color: rgba(255, 255, 255, 0.8); }
+        .carousel-button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .carousel-button.prev { left: 1rem; }
+        .carousel-button.next { right: 1rem; }
+        .carousel-dots { text-align: center; padding: 1rem 0; }
+        .carousel-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #d1d5db; /* gray-300 */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        @media (min-width: 768px) {
-            .card-content {
-                flex-direction: row;
-                padding: 3rem;
-            }
-        }
-        .card-text-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        @media (min-width: 768px) {
-            .card-text-container {
-                flex-basis: 40%; /* Ocupa 40% da largura */
-            }
-        }
-        .card-image-container {
-            flex: 1;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            min-height: 200px; /* Altura mínima da imagem no mobile */
-        }
-         @media (min-width: 768px) {
-            .card-image-container {
-                flex-basis: 60%; /* Ocupa 60% da largura */
-                 min-height: auto;
-            }
-        }
-        .card-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .carousel-dot.active { background-color: #49B4C3; }
+
     </style>
 </head>
-<body class="bg-white text-gray-800">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<body class="bg-white text-brand-dark">
 
 <div class="page-loader" id="pageLoader">
     <img src="img/logoalmeidaduarte.png" alt="Logo Almeida Duarte Odontologia" class="w-64 h-auto animate-pulse">
 </div>
-
 <a href="https://wa.me/5511946339530?text=Olá! Gostaria de agendar uma consulta." class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contatar via WhatsApp"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg></a>
 <div class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Voltar ao topo"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg></div>
-
 <header class="fixed top-0 w-full bg-white z-40 transition-shadow duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-24">
@@ -151,12 +138,12 @@
                 <img src="img/logoalmeidaduarte.png" alt="Logo Almeida Duarte" class="w-48 h-auto"> 
             </a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#sobre" class="text-gray-700 hover:text-sky-600 font-medium">Sobre</a>
-                <a href="#equipe" class="text-gray-700 hover:text-sky-600 font-medium">Equipe</a>
-                <a href="#procedimentos" class="text-gray-700 hover:text-sky-600 font-medium">Procedimentos</a>
-                <a href="#nossas-salas" class="text-gray-700 hover:text-sky-600 font-medium">Nossas Salas</a>
-                <a href="#depoimentos" class="text-gray-700 hover:text-sky-600 font-medium">Depoimentos</a>
-                <a href="#contato" class="text-gray-700 hover:text-sky-600 font-medium">Contato</a>
+                <a href="#sobre" class="text-gray-700 hover:text-brand-teal font-medium">Sobre</a>
+                <a href="#equipe" class="text-gray-700 hover:text-brand-teal font-medium">Equipe</a>
+                <a href="#procedimentos" class="text-gray-700 hover:text-brand-teal font-medium">Procedimentos</a>
+                <a href="#nossas-salas" class="text-gray-700 hover:text-brand-teal font-medium">Nossas Salas</a>
+                <a href="#depoimentos" class="text-gray-700 hover:text-brand-teal font-medium">Depoimentos</a>
+                <a href="#contato" class="text-gray-700 hover:text-brand-teal font-medium">Contato</a>
             </nav>
             <button class="md:hidden p-2" onclick="toggleMenu(true)" aria-label="Abrir Menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
         </div>
@@ -178,91 +165,90 @@
     <section id="inicio" class="pt-32 pb-16 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="fade-in">
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">Dr. Fabio Duarte e <span class="gradient-text">Dra Carla Almeida</span><span class="block text-2xl md:text-3xl font-medium text-gray-600 mt-2">A saúde da sua boca em nossas mãos.</span></h1>
+                <div class="text-blur-in">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-brand-dark leading-tight mb-6">Dr. Fabio Duarte e <span class="gradient-text">Dra Carla Almeida</span><span class="block text-2xl md:text-3xl font-medium text-gray-600 mt-2">A saúde da sua boca em nossas mãos.</span></h1>
                     <p class="text-lg text-gray-600 mb-8 leading-relaxed">Nossa equipe oferece excelência em tratamentos, utilizando tecnologia de ponta e atendimento humanizado para transformar seu sorriso.</p>
                     <div class="flex flex-col sm:flex-row gap-4 mb-10"><button onclick="agendar()" class="gradient-bg text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">Agendar Consulta</button></div>
                 </div>
-                <div class="slide-in-right"><img src="img/consultorio_almedia_duarte.png" alt="Consultório Almeida Duarte Odontologia" class="rounded-3xl shadow-2xl object-cover w-full h-auto aspect-square"></div>
+                <div class="reveal-in"><img src="img/consultorio_almedia_duarte.png" alt="Consultório Almeida Duarte Odontologia" class="rounded-3xl shadow-2xl object-cover w-full h-auto aspect-square"></div>
             </div>
         </div>
     </section>
-
+    
     <section id="sobre" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="slide-in-right">
-                    <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">SOBRE NÓS</span>
-                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6 mb-6">Paixão por <span class="gradient-text">Sorrisos</span></h2>
+                <div class="text-blur-in">
+                    <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">SOBRE NÓS</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6 mb-6">Paixão por <span class="gradient-text">Sorrisos</span></h2>
                     <p class="text-lg text-gray-600 mb-8 leading-relaxed">A Almeida Duarte Odontologia combina tradição e inovação. Com mais de 15 anos de experiência, nossa equipe qualificada utiliza tecnologia de ponta para proporcionar cuidados seguros e eficazes.</p>
                     <div class="space-y-4 text-lg">
-                        <p class="flex items-center"><svg class="w-6 h-6 text-sky-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Tecnologia de Ponta</p>
-                        <p class="flex items-center"><svg class="w-6 h-6 text-sky-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Equipe Especializada</p>
-                        <p class="flex items-center"><svg class="w-6 h-6 text-sky-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Atendimento Humanizado</p>
+                        <p class="flex items-center"><svg class="w-6 h-6 text-brand-teal mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Tecnologia de Ponta</p>
+                        <p class="flex items-center"><svg class="w-6 h-6 text-brand-teal mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Equipe Especializada</p>
+                        <p class="flex items-center"><svg class="w-6 h-6 text-brand-teal mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Atendimento Humanizado</p>
                     </div>
                 </div>
-                <div class="slide-in-left lg:order-first">
+                <div class="reveal-in lg:order-first">
                     <img src="img/foto_carla_fabio.png" alt="Equipe Almeida Duarte" class="rounded-3xl shadow-2xl object-cover w-full h-auto aspect-[4/5]">
                 </div>
             </div>
         </div>
     </section>
-
     <section id="equipe" class="py-20 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Conheça nossa <span class="gradient-text">Equipe</span></h2>
+            <div class="text-center mb-16 text-blur-in">
+                <h2 class="text-4xl md:text-5xl font-bold text-brand-dark">Conheça nossa <span class="gradient-text">Equipe</span></h2>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">Os cérebros e corações por trás dos seus sorrisos.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-                <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8">
+                <div class="reveal-in flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8">
                     <div class="relative flex-shrink-0">
-                         <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-cyan-400 to-sky-600 p-1">
+                         <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-brand-teal to-brand-gray p-1">
                             <img src="img/fabio_duarte.png" alt="Dr. Fabio Duarte" class="w-full h-full object-cover rounded-full border-4 border-gray-100">
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Dr. Fabio Duarte</h3>
-                        <p class="text-sky-600 font-semibold mb-3">Fundador & Cirurgião Dentista</p>
+                        <h3 class="text-2xl font-bold text-brand-dark">Dr. Fabio Duarte</h3>
+                        <p class="text-brand-teal font-semibold mb-3">Fundador & Cirurgião Dentista</p>
                         <hr class="border-gray-200 mb-3">
                         <p class="text-gray-600 mb-4">Com vasta experiência em implantes e reabilitação oral, Dr. Fabio é apaixonado por devolver a função e a estética aos sorrisos.</p>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8">
+                <div class="reveal-in flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8" style="transition-delay: 0.2s;">
                     <div class="relative flex-shrink-0">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-cyan-400 to-sky-600 p-1">
+                         <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-brand-teal to-brand-gray p-1">
                             <img src="img/carla_almeida.png" alt="Dra. Carla Almeida" class="w-full h-full object-cover rounded-full border-4 border-gray-100">
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Dra. Carla Almeida</h3>
-                        <p class="text-sky-600 font-semibold mb-3">Co-Fundadora & CEO</p>
+                        <h3 class="text-2xl font-bold text-brand-dark">Dra. Carla Almeida</h3>
+                        <p class="text-brand-teal font-semibold mb-3">Co-Fundadora & CEO</p>
                         <hr class="border-gray-200 mb-3">
                         <p class="text-gray-600 mb-4">Especialista em Ortodontia e Estética Dental, Dra. Carla se dedica a criar sorrisos harmoniosos e a garantir uma experiência acolhedora a todos os pacientes.</p>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8">
+                <div class="reveal-in flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8" style="transition-delay: 0.3s;">
                     <div class="relative flex-shrink-0">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-cyan-400 to-sky-600 p-1">
+                        <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-brand-teal to-brand-gray p-1">
                             <img src="img/auxiliar.png" alt="Auxiliar de Saúde Bucal" class="w-full h-full object-cover rounded-full border-4 border-gray-100">
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Ana Oliveira</h3>
-                        <p class="text-sky-600 font-semibold mb-3">Auxiliar de Saúde Bucal</p>
+                        <h3 class="text-2xl font-bold text-brand-dark">Ana Oliveira</h3>
+                        <p class="text-brand-teal font-semibold mb-3">Auxiliar de Saúde Bucal</p>
                         <hr class="border-gray-200 mb-3">
                         <p class="text-gray-600 mb-4">Responsável por garantir que todos os procedimentos ocorram com a máxima segurança e conforto, Ana é peça fundamental em nossa equipe.</p>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8">
+                <div class="reveal-in flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-8" style="transition-delay: 0.4s;">
                     <div class="relative flex-shrink-0">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-cyan-400 to-sky-600 p-1">
+                        <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-brand-teal to-brand-gray p-1">
                             <img src="img/recepcionista.png" alt="Recepcionista" class="w-full h-full object-cover rounded-full border-4 border-gray-100">
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Beatriz Costa</h3>
-                        <p class="text-sky-600 font-semibold mb-3">Coordenadora de Atendimento</p>
+                        <h3 class="text-2xl font-bold text-brand-dark">Beatriz Costa</h3>
+                        <p class="text-brand-teal font-semibold mb-3">Coordenadora de Atendimento</p>
                         <hr class="border-gray-200 mb-3">
                         <p class="text-gray-600 mb-4">Beatriz é o primeiro sorriso que você vê. Ela cuida de toda a sua jornada, do agendamento ao pós-atendimento, com carinho e eficiência.</p>
                     </div>
@@ -270,139 +256,138 @@
             </div>
         </div>
     </section>
-
     <section id="procedimentos" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">TRATAMENTOS</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6">Nossos <span class="gradient-text">Procedimentos</span></h2>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-blur-in">
+            <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">TRATAMENTOS</span>
+            <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6">Nossos <span class="gradient-text">Procedimentos</span></h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">Conheça algumas de nossas especialidades e veja como podemos transformar o seu sorriso.</p>
         </div>
         <div class="max-w-7xl mx-auto mt-16 space-y-8 px-4 sm:px-6 lg:px-8">
-            <div class="scale-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('img/clareamento_dental.png');">
+            <div class="reveal-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('img/clareamento_dental.png');">
                 <div class="p-8 md:p-16 max-w-xl">
                     <h3 class="text-4xl md:text-5xl font-bold">Clareamento Dental</h3>
                     <p class="mt-4 text-lg opacity-90">Um sorriso mais branco e radiante com as técnicas mais seguras e eficazes do mercado.</p>
-                    <button onclick="agendarProcedimento('Clareamento Dental')" class="mt-6 bg-white text-sky-600 font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
+                    <button onclick="agendarProcedimento('Clareamento Dental')" class="mt-6 bg-white text-brand-teal font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
                 </div>
             </div>
-            <div class="scale-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1599045118108-bf9954418b76?q=80&w=1973&auto=format&fit=crop');">
+            <div class="reveal-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="transition-delay: 0.2s; background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1599045118108-bf9954418b76?q=80&w=1973&auto=format&fit=crop');">
                 <div class="p-8 md:p-16 max-w-xl">
                     <h3 class="text-4xl md:text-5xl font-bold">Implantes Dentários</h3>
                     <p class="mt-4 text-lg opacity-90">Recupere a função e a estética do seu sorriso com implantes de alta tecnologia.</p>
-                    <button onclick="agendarProcedimento('Implantes Dentários')" class="mt-6 bg-white text-sky-600 font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
+                    <button onclick="agendarProcedimento('Implantes Dentários')" class="mt-6 bg-white text-brand-teal font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
                 </div>
             </div>
-             <div class="scale-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('img/ordodentia.png');">
+             <div class="reveal-in relative min-h-[60vh] rounded-2xl overflow-hidden flex items-center justify-start text-white bg-cover bg-center" style="transition-delay: 0.3s; background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url('img/ordodentia.png');">
                 <div class="p-8 md:p-16 max-w-xl">
                     <h3 class="text-4xl md:text-5xl font-bold">Ortodontia</h3>
                     <p class="mt-4 text-lg opacity-90">Alinhe seu sorriso com aparelhos modernos, incluindo opções estéticas e invisíveis.</p>
-                    <button onclick="agendarProcedimento('Ortodontia')" class="mt-6 bg-white text-sky-600 font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
+                    <button onclick="agendarProcedimento('Ortodontia')" class="mt-6 bg-white text-brand-teal font-semibold px-8 py-3 rounded-full hover:bg-gray-200 transition-colors">Saiba Mais</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="nossas-salas" class="bg-gray-100 pt-20 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in mb-16">
-            <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">ESTRUTURA</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6">Nossas <span class="gradient-text">Salas</span></h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">Ambientes projetados para seu conforto e segurança. Role para explorar.</p>
-        </div>
-
-        <div id="salas-panel-container"> <div id="salas-panel" class="relative">
+    <section id="nossas-salas" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 text-blur-in">
+                <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">ESTRUTURA</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6">Nossas <span class="gradient-text">Salas</span></h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">Ambientes projetados para seu conforto e segurança.</p>
+            </div>
+            
+            <div class="reveal-in max-w-5xl mx-auto">
+                <div class="carousel" id="salas-carousel">
+                    <div class="carousel-view">
+                        <div class="carousel-track">
+                            </div>
+                    </div>
+                    <button class="carousel-button prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-brand-dark"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-button next">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-brand-dark"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="carousel-dots">
+                        </div>
                 </div>
+            </div>
         </div>
     </section>
     
     <section id="depoimentos" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in">
-                <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">DEPOIMENTOS</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6">O que nossos <span class="gradient-text">pacientes</span> dizem</h2>
+            <div class="text-center mb-16 text-blur-in">
+                <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">DEPOIMENTOS</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6">O que nossos <span class="gradient-text">pacientes</span> dizem</h2>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-50 border border-gray-200 p-8 rounded-2xl scale-in relative">
+                <div class="reveal-in bg-gray-50 border border-gray-200 p-8 rounded-2xl relative">
                     <div class="flex items-center mb-4"><div class="flex text-yellow-400">★★★★★</div></div>
                     <p class="text-gray-700 italic relative z-10">"Lugar maravilhoso, Dra. Carla paciente e super profissional, meninas da recepção muito simpáticas. Preço justo. Ótimo."</p>
-                    <h4 class="font-bold text-gray-900 text-lg mt-4">Cristiane Silva</h4>
+                    <h4 class="font-bold text-brand-dark text-lg mt-4">Cristiane Silva</h4>
                 </div>
-                <div class="bg-gray-50 border border-gray-200 p-8 rounded-2xl scale-in relative">
+                <div class="reveal-in bg-gray-50 border border-gray-200 p-8 rounded-2xl relative" style="transition-delay: 0.2s;">
                     <div class="flex items-center mb-4"><div class="flex text-yellow-400">★★★★★</div></div>
-                    <p class="text-gray-700 italic relative z-10">"Melhor clinica de Ferraz de Vasconcelos não troco por nada. Sempre fui tratada com respeito toda equipe sempre dedicada, preço justo e trabalho sempre muito bem feito. Tive muitas dores de dente durante a gravidez e Dr. Fábio sempre muito compreensivo e atencioso. Obrigada."</p>
-                    <h4 class="font-bold text-gray-900 text-lg mt-4">Danny Thavares</h4>
+                    <p class="text-gray-700 italic relative z-10">"Melhor clinica de Ferraz de Vasconcelos não troco por nada. Sempre fui tratada com respeito toda equipe sempre dedicada, preço justo e trabalho sempre muito bem feito."</p>
+                    <h4 class="font-bold text-brand-dark text-lg mt-4">Danny Thavares</h4>
                 </div>
-                <div class="bg-gray-50 border border-gray-200 p-8 rounded-2xl scale-in relative">
+                <div class="reveal-in bg-gray-50 border border-gray-200 p-8 rounded-2xl relative" style="transition-delay: 0.3s;">
                     <div class="flex items-center mb-4"><div class="flex text-yellow-400">★★★★★</div></div>
                     <p class="text-gray-700 italic relative z-10">"Recomendo, atenciosos, qualidade no serviço prestado, valor justo."</p>
-                    <h4 class="font-bold text-gray-900 text-lg mt-4">Jimmy Coelho</h4>
+                    <h4 class="font-bold text-brand-dark text-lg mt-4">Jimmy Coelho</h4>
                 </div>
             </div>
         </div>
     </section>
-
     <section id="faq" class="py-20 bg-gray-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in">
-                <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">FAQ</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6">Perguntas <span class="gradient-text">Frequentes</span></h2>
+            <div class="text-center mb-16 text-blur-in">
+                <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">FAQ</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6">Perguntas <span class="gradient-text">Frequentes</span></h2>
             </div>
             <div class="space-y-4">
-                <div class="faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden scale-in">
+                <div class="reveal-in faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden">
                     <button class="w-full px-6 py-5 text-left text-lg font-semibold flex justify-between items-center" onclick="toggleFAQ(this)">Com que frequência devo ir ao dentista?<span class="faq-icon transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span></button>
-                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;">A recomendação geral da Associação Dental Americana e de especialistas em todo o mundo é realizar uma <strong>consulta de rotina e limpeza profissional a cada 6 meses</strong>. Essa frequência é ideal para a prevenção, permitindo ao dentista identificar e tratar problemas como cáries, gengivite ou placa bacteriana em estágio inicial, antes que se tornem mais sérios e caros para tratar. Para pacientes com maior risco de doenças bucais, como fumantes ou diabéticos, visitas mais frequentes (a cada 3 ou 4 meses) podem ser indicadas.</div>
+                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;">A recomendação é realizar uma <strong>consulta de rotina e limpeza a cada 6 meses</strong>. Isso permite a prevenção e identificação de problemas em estágio inicial, antes que se tornem mais sérios.</div>
                 </div>
-                <div class="faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden scale-in">
+                <div class="reveal-in faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden" style="transition-delay: 0.2s;">
                     <button class="w-full px-6 py-5 text-left text-lg font-semibold flex justify-between items-center" onclick="toggleFAQ(this)">O clareamento dental enfraquece os dentes?<span class="faq-icon transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span></button>
-                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;"><strong>Não, o clareamento dental não enfraquece nem danifica a estrutura do esmalte dental</strong> quando realizado sob a supervisão de um dentista qualificado. Os agentes clareadores (geralmente peróxido de hidrogênio ou carbamida) agem quimicamente para quebrar as moléculas de pigmento que causam as manchas. O efeito colateral mais comum é uma sensibilidade temporária nos dentes, que geralmente desaparece em poucos dias. Utilizar produtos de qualidade e seguir as orientações profissionais é a chave para um tratamento seguro e eficaz.</div>
+                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;"><strong>Não</strong>. Quando realizado sob supervisão profissional, o clareamento é um procedimento seguro que não danifica a estrutura do esmalte dental. O efeito colateral mais comum é uma sensibilidade temporária.</div>
                 </div>
-                <div class="faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden scale-in">
+                <div class="reveal-in faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden" style="transition-delay: 0.3s;">
                     <button class="w-full px-6 py-5 text-left text-lg font-semibold flex justify-between items-center" onclick="toggleFAQ(this)">Quais formas de pagamento vocês aceitam?<span class="faq-icon transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span></button>
-                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;">Para sua conveniência, aceitamos uma ampla variedade de formas de pagamento. Nossos pacientes podem pagar com <strong>cartões de crédito</strong> (com opções de parcelamento para viabilizar tratamentos mais longos), <strong>cartões de débito</strong>, e também via <strong>PIX</strong>. Nosso objetivo é remover barreiras financeiras para que você possa receber o cuidado odontológico que merece. Converse com nossa equipe na recepção para encontrar o plano de pagamento que melhor se ajusta às suas necessidades.</div>
+                    <div class="px-6 pb-5 text-gray-600 hidden leading-relaxed" style="max-height: 0; transition: max-height 0.5s ease-out;">Aceitamos <strong>cartões de crédito</strong> (com opções de parcelamento), <strong>cartões de débito</strong> e <strong>PIX</strong>. Nosso objetivo é facilitar o acesso ao tratamento odontológico de qualidade.</div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="py-20 gradient-bg">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white fade-in">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white text-blur-in">
             <h2 class="text-4xl md:text-5xl font-bold mb-6">Pronto para transformar seu sorriso?</h2>
             <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">Sua jornada para um sorriso mais saudável e confiante começa aqui. Agende sua avaliação hoje mesmo.</p>
-            <button onclick="agendar()" class="bg-white text-sky-600 font-semibold px-10 py-4 rounded-full text-lg transition-transform hover:scale-105 shadow-2xl">Agendar Consulta Gratuita</button>
+            <button onclick="agendar()" class="bg-white text-brand-teal font-semibold px-10 py-4 rounded-full text-lg transition-transform hover:scale-105 shadow-2xl">Agendar Consulta Gratuita</button>
         </div>
     </section>
-
     <section id="contato" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm font-semibold">CONTATO E LOCALIZAÇÃO</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-6">Fale Conosco e <span class="gradient-text">nos Visite</span></h2>
+            <div class="text-center mb-16 text-blur-in">
+                <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold">CONTATO E LOCALIZAÇÃO</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand-dark mt-6">Fale Conosco e <span class="gradient-text">nos Visite</span></h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <div class="fade-in">
+                <div class="reveal-in">
                     <h3 class="text-2xl font-bold mb-4 text-gray-800">Nossa Localização</h3>
                     <div class="shadow-xl rounded-2xl overflow-hidden">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.989218320499!2d-46.37798788540417!3d-23.53326756627584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce657d42898c0b%3A0xea8707c57e5e3b30!2sAv.%20Quinze%20de%20Novembro%2C%20349%20-%20Vila%20Romanopolis%2C%20Ferraz%20de%20Vasconcelos%20-%20SP%2C%2008500-200!5e0!3m2!1spt-BR!2sbr!4v1668524458999!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
-                <div class="fade-in">
+                <div class="reveal-in" style="transition-delay: 0.2s;">
                     <h3 class="text-2xl font-bold mb-4 text-gray-800">Envie uma Mensagem</h3>
                     <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
-                        <div>
-                            <label for="name" class="font-medium text-gray-700 sr-only">Nome</label>
-                            <input type="text" id="name" name="name" required class="form-input" placeholder="Seu nome">
-                        </div>
-                        <div>
-                            <label for="email" class="font-medium text-gray-700 sr-only">Email</label>
-                            <input type="email" id="email" name="email" required class="form-input" placeholder="Seu e-mail">
-                        </div>
-                        <div>
-                            <label for="phone" class="font-medium text-gray-700 sr-only">Telefone</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Seu telefone (Opcional)">
-                        </div>
-                        <div>
-                            <label for="message" class="font-medium text-gray-700 sr-only">Mensagem</label>
-                            <textarea id="message" name="message" rows="4" required class="form-input" placeholder="Sua mensagem"></textarea>
-                        </div>
+                        <div><input type="text" id="name" name="name" required class="form-input" placeholder="Seu nome"></div>
+                        <div><input type="email" id="email" name="email" required class="form-input" placeholder="Seu e-mail"></div>
+                        <div><input type="tel" id="phone" name="phone" class="form-input" placeholder="Seu telefone (Opcional)"></div>
+                        <div><textarea id="message" name="message" rows="4" required class="form-input" placeholder="Sua mensagem"></textarea></div>
                         <button type="submit" class="w-full gradient-bg text-white font-semibold px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-lg">Enviar Mensagem</button>
                     </form>
                 </div>
@@ -410,13 +395,12 @@
         </div>
     </section>
 </main>
-
-<footer class="bg-gray-900 text-white pt-16 pb-8">
+<footer class="bg-brand-dark text-white pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-            <div><h4 class="text-lg font-bold mb-4 text-cyan-400">Entre em Contato</h4><a href="https://wa.me/5511946339530" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white block">(11) 94633-9530</a><a href="mailto:contato@almeidaduarteodonto.com.br" class="text-gray-300 hover:text-white block">contato@almeidaduarte.com</a></div>
-            <div><h4 class="text-lg font-bold mb-4 text-cyan-400">Nosso Endereço</h4><p class="text-gray-300">Avenida 15 de Novembro, 349</p><p class="text-gray-300">Ferraz de Vasconcelos - SP</p></div>
-            <div><h4 class="text-lg font-bold mb-4 text-cyan-400">Siga-nos</h4><div class="flex justify-center md:justify-start space-x-4"><a href="https://instagram.com/almeidaduarteodontologia" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-300 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="mailto:contato@almeidaduarteodonto.com.br" aria-label="Email" class="text-gray-300 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a></div></div>
+            <div><h4 class="text-lg font-bold mb-4 text-brand-teal">Entre em Contato</h4><a href="https://wa.me/5511946339530" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white block">(11) 94633-9530</a><a href="mailto:contato@almeidaduarteodonto.com.br" class="text-gray-300 hover:text-white block">contato@almeidaduarte.com</a></div>
+            <div><h4 class="text-lg font-bold mb-4 text-brand-teal">Nosso Endereço</h4><p class="text-gray-300">Avenida 15 de Novembro, 349</p><p class="text-gray-300">Ferraz de Vasconcelos - SP</p></div>
+            <div><h4 class="text-lg font-bold mb-4 text-brand-teal">Siga-nos</h4><div class="flex justify-center md:justify-start space-x-4"><a href="https://instagram.com/almeidaduarteodontologia" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-300 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="mailto:contato@almeidaduarteodonto.com.br" aria-label="Email" class="text-gray-300 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a></div></div>
     </div>
         <div class="border-t border-gray-700 mt-12 pt-6 text-center text-gray-400 text-sm">
             <p>© 2025 Almeida Duarte Odontologia. Todos os direitos reservados.</p>
@@ -425,11 +409,8 @@
     </div>
 </footer>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    gsap.registerPlugin(ScrollTrigger);
-
     // --- PAGE LOADER ---
     const loader = document.getElementById('pageLoader');
     setTimeout(() => {
@@ -437,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loader.addEventListener('transitionend', () => loader.style.display = 'none', { once: true });
     }, 500);
 
-    // --- GENERIC FADE-IN ANIMATIONS ---
+    // --- INTERSECTION OBSERVER PARA ANIMAÇÕES ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -446,9 +427,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.text-blur-in, .reveal-in').forEach(el => observer.observe(el));
 
-    // --- NAVBAR & BACK-TO-TOP VISIBILITY ---
+    // --- NAVBAR & BACK-TO-TOP ---
     window.addEventListener('scroll', function() {
         const navbar = document.getElementById('navbar');
         const backToTop = document.getElementById('backToTop');
@@ -461,49 +442,76 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- SCRIPT CORRIGIDO PARA O EFEITO DE SLIDING HORIZONTAL ---
-    const projects = [
-        { title: 'Recepção Aconchegante', description: 'Um ambiente calmo e confortável para que você se sinta à vontade desde o primeiro momento. Relaxe antes da sua consulta em nosso espaço climatizado.', image: 'img/consultorio_almedia_duarte.png', color: '#133b5c' },
-        { title: 'Consultório Principal', description: 'Equipado com a mais alta tecnologia para diagnósticos precisos e tratamentos eficazes. Sua saúde bucal em primeiro lugar.', image: 'img/foto_consultorio.png', color: '#1e5f74' },
-        { title: 'Sala de Esterilização', description: 'Seguimos rigorosos protocolos de biossegurança. Nossa central de esterilização garante que todos os materiais sejam 100% seguros.', image: 'img/consultorio2.png', color: '#06b6d4' },
+    // --- LÓGICA DO NOVO CARROSSEL DE SLIDES ---
+    const salasData = [
+        { image: 'img/consultorio_almedia_duarte.png', alt: 'Recepção da clínica' },
+        { image: 'img/foto_consultorio.png', alt: 'Consultório principal' },
+        { image: 'img/consultorio2.png', alt: 'Sala de esterilização' },
+        
     ];
+    
+    const carousel = document.getElementById('salas-carousel');
+    const track = carousel.querySelector('.carousel-track');
+    const dotsContainer = carousel.querySelector('.carousel-dots');
+    const prevButton = carousel.querySelector('.carousel-button.prev');
+    const nextButton = carousel.querySelector('.carousel-button.next');
 
-    const salasPanel = document.getElementById('salas-panel');
+    // Popular slides e dots
+    salasData.forEach((sala, index) => {
+        // Criar Slide
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `<img src="${sala.image}" alt="${sala.alt}">`;
+        track.appendChild(slide);
 
-    // Gerar os cards dinamicamente
-    projects.forEach(project => {
-        const cardWrapper = document.createElement('div');
-        cardWrapper.className = 'card-wrapper';
-        cardWrapper.style.setProperty('--card-color', project.color);
+        // Criar Dot
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        dot.dataset.index = index;
+        dotsContainer.appendChild(dot);
+    });
 
-        cardWrapper.innerHTML = `
-            <div class="card-content">
-                <div class="card-text-container">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">${project.title}</h3>
-                    <p class="text-lg opacity-80">${project.description}</p>
-                </div>
-                <div class="card-image-container">
-                    <img src="${project.image}" alt="${project.title}">
-                </div>
-            </div>
-        `;
-        salasPanel.appendChild(cardWrapper);
+    const slides = Array.from(track.children);
+    const dots = Array.from(dotsContainer.children);
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    let currentIndex = 0;
+
+    const setSlidePosition = (slide, index) => {
+        slide.style.left = slideWidth * index + 'px';
+    };
+    // slides.forEach(setSlidePosition); // Não necessário com flexbox
+
+    const moveToSlide = (currentSlide, targetSlide) => {
+        track.style.transform = 'translateX(-' + slides[targetSlide].offsetLeft + 'px)';
+        currentIndex = targetSlide;
+
+        // Atualizar dots
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[targetSlide].classList.add('active');
+
+        // Atualizar botões
+        prevButton.disabled = (targetSlide === 0);
+        nextButton.disabled = (targetSlide === slides.length - 1);
+    };
+    
+    // Event Listeners
+    prevButton.addEventListener('click', e => {
+        if (currentIndex > 0) moveToSlide(currentIndex, currentIndex - 1);
+    });
+
+    nextButton.addEventListener('click', e => {
+        if (currentIndex < slides.length - 1) moveToSlide(currentIndex, currentIndex + 1);
+    });
+
+    dotsContainer.addEventListener('click', e => {
+        const targetDot = e.target.closest('button.carousel-dot');
+        if (!targetDot) return;
+        const targetIndex = parseInt(targetDot.dataset.index);
+        moveToSlide(currentIndex, targetIndex);
     });
     
-    // Animação GSAP para scroll horizontal com os ajustes solicitados
-    let cards = gsap.utils.toArray(".card-wrapper");
-    gsap.to(cards, {
-        xPercent: -100 * (cards.length - 1),
-        ease: "none", // A animação é controlada diretamente pelo scroll
-        scrollTrigger: {
-            trigger: "#salas-panel-container",
-            pin: true,
-            scrub: 2, // <-- AUMENTADO para uma transição mais suave e lenta
-            snap: 1 / (cards.length - 1), // Garante que pare exatamente em cada card
-            // end: Define a "duração" do scroll. "+=300%" significa 3x a altura da tela.
-            end: "+=400%", // <-- ALTERADO para a lógica dos "3 scrolls"
-        }
-    });
+    // Inicializa
+    moveToSlide(0, 0);
 });
 
 // --- FUNÇÕES GLOBAIS DO SITE ---
@@ -528,19 +536,14 @@ function toggleFAQ(buttonElement) {
     const icon = buttonElement.querySelector('.faq-icon');
     const allContents = document.querySelectorAll('.faq-item > div');
     const allIcons = document.querySelectorAll('.faq-item .faq-icon');
-
     const isOpening = content.classList.contains('hidden');
 
-    // Fecha todos os outros
     allContents.forEach(c => {
         c.classList.add('hidden');
         c.style.maxHeight = '0px';
     });
-    allIcons.forEach(i => {
-        i.style.transform = 'rotate(0deg)';
-    });
+    allIcons.forEach(i => i.style.transform = 'rotate(0deg)');
 
-    // Abre o clicado, se estava fechado
     if (isOpening) {
         content.classList.remove('hidden');
         content.style.maxHeight = content.scrollHeight + "px";
@@ -548,20 +551,35 @@ function toggleFAQ(buttonElement) {
     }
 }
 
+// --- FUNÇÃO DO FORMULÁRIO DE CONTATO PARA WHATSAPP ---
 function handleFormSubmit(event) {
-    event.preventDefault();
+    event.preventDefault(); // Impede o envio padrão do formulário
+    
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
     const phone = form.phone.value;
     const message = form.message.value;
-    const subject = `Nova Mensagem de Contato de ${name}`;
-    const body = `Você recebeu uma nova mensagem do site:\n\nNome: ${name}\nEmail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`;
     
-    window.location.href = `mailto:contato@almeidaduarte.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const clinicPhoneNumber = "5511946339530"; // Número da clínica
+
+    // Formata a mensagem para o WhatsApp. Use *texto* para negrito.
+    const whatsappMessage = `
+*Nova Mensagem do Site*
+
+*Nome:* ${name}
+*E-mail:* ${email}
+*Telefone:* ${phone}
+
+*Mensagem:*
+${message}
+    `;
+
+    // Cria o link do WhatsApp e codifica a mensagem para a URL
+    const whatsappUrl = `https://wa.me/${clinicPhoneNumber}?text=${encodeURIComponent(whatsappMessage.trim())}`;
     
-    alert('Obrigado pelo seu contato! Seu aplicativo de e-mail será aberto para enviar a mensagem.');
-    form.reset();
+    // Abre o link em uma nova aba
+    window.open(whatsappUrl, '_blank');
 }
 </script>
 
